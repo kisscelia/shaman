@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import os
 
 from pecan.commands.base import BaseCommand
@@ -10,7 +12,7 @@ from shaman import models
 
 
 def out(string):
-    print "==> %s" % string
+    print("==> %s" % string)
 
 
 def get_alembic_config():
