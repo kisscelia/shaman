@@ -7,12 +7,13 @@ from cherrypy import wsgiserver
 
 from pecan.deploy import deploy
 
-simpleapp_wsgi_app = deploy('dev.py')
 
 current_dir = os.path.abspath(dirname(__file__))
 base_dir = dirname(current_dir)
 public_path = os.path.abspath(os.path.join(base_dir, 'public'))
 
+dev_path = os.path.abspath(os.path.join(current_dir, 'dev.py'))
+simpleapp_wsgi_app = deploy(dev_path)
 
 # A dummy class for our Root object
 # necessary for some CherryPy machinery
