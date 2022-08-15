@@ -55,7 +55,7 @@
 
 - name: "pip+git install {{ app_name }} into virtualenv."
   pip:
-    name: 'git+https://github.com/ceph/shaman@{{ branch }}#egg=shaman'
+    name: 'git+https://github.com/sine-cloud/shaman@{{ branch }}#egg=shaman'
     virtualenv: "{{ app_home }}"
     state: forcereinstall
     editable: yes
