@@ -9,7 +9,7 @@
      use_ssl: true
      ansible_ssh_port: 2222
      development_server: false
-     fqdn: "1.shaman.ceph.com"
+     fqdn: "1.shaman.sinecloud.com"
      api_user: "admin"
      api_key: "secret"
      # postgres specific
@@ -52,7 +52,7 @@
      use_ssl: true
      ansible_ssh_port: 2222
      development_server: false
-     fqdn: "2.shaman.ceph.com"
+     fqdn: "2.shaman.sinecloud.com"
      api_user: "admin"
      api_key: "secret"
      # postgres specific
