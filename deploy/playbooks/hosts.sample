@@ -1,9 +1,0 @@
-[app]
-node1
-node2
-
-[postgresql_master]
-node1
-
-[postgresql_standby]
-node2

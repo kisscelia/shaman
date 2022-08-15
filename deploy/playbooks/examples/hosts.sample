@@ -1,0 +1,9 @@
+[app]
+1.shaman.sinecloud.com
+2.shaman.sinecloud.com
+
+[postgresql_master]
+1.shaman.sinecloud.com
+
+[postgresql_standby]
+2.shaman.sinecloud.com

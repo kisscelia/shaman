@@ -1,0 +1,29 @@
+---
+
+- hosts: app
+  user: ubuntu
+  roles:
+    - common
+  vars:
+     app_name: "shaman"
+     use_ssl: true
+     wsgi_file: wsgi.py
+     wsgi_callable: application
+     ansible_ssh_port: 22
+     restart_app: true
+     branch: "main"
+     development_server: true
+     fqdn: "{{ inventory_hostname }}"
+     #nginx_ssl_cert_path: "/etc/letsencrypt/live/{{ fqdn }}/fullchain.pem"
+     nginx_ssl_cert_path: "/etc/ssl/certs/{{ fqdn }}-bundled.crt"
+     #nginx_ssl_key_path: "/etc/letsencrypt/live/{{ fqdn }}/privkey.pem"
+     nginx_ssl_key_path: "/etc/ssl/private/{{ fqdn }}.key"
+     api_user: "admin"
+     api_key: "secret"
+     rabbit_host: "localhost"
+     rabbit_user: "guest"
+     rabbit_pw: "guest"
+     github_secret: "secret"
+     chacra_verify_ssl: True
+  tags:
+    - deploy_app
