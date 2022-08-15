@@ -91,7 +91,7 @@
      wsgi_callable: application
      ansible_ssh_port: 22
      restart_app: true
-     branch: "master"
+     branch: "main"
      development_server: true
      fqdn: "{{ inventory_hostname }}"
      nginx_ssl_cert_path: "/etc/ssl/certs/{{ fqdn }}-bundled.crt"

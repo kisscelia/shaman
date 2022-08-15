@@ -52,6 +52,7 @@
     name: pip
     virtualenv: "{{ app_home }}"
     extra_args: '--upgrade'
+    virtualenv_python: python3
 
 - name: "pip+git install {{ app_name }} into virtualenv."
   pip:
