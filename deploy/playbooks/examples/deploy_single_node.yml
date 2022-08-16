@@ -25,5 +25,6 @@
      rabbit_pw: "guest"
      github_secret: "secret"
      chacra_verify_ssl: True
+     ansible_python_interpreter: "python3"
   tags:
     - deploy_app
