@@ -1,7 +1,7 @@
 ---
 # This playbook requires both the master ip and the standby host ip. For
 # example::
-#     ansible-playbook -i hosts --extra-vars="master_ip=192.168.111.100 standby_ip=192.168.111.104" deploy_postgres.yml
+#     ansible-playbook -i hosts --extra-vars="master_ip=192.168.111.100 standby_ip=192.168.111.104" deploy_production.yml
 
 - hosts: postgresql_master
   user: ubuntu
@@ -12,7 +12,7 @@
      use_ssl: true
      ansible_ssh_port: 22
      development_server: true
-     fqdn: "1.shaman.sinecloud.com"
+     fqdn: "{{ inventory_hostname }}"
      api_user: "admin"
      api_key: "secret"
      # postgres specific
@@ -55,7 +55,7 @@
      use_ssl: true
      ansible_ssh_port: 22
      development_server: true
-     fqdn: "2.shaman.sinecloud.com"
+     fqdn: "{{ inventory_hostname }}"
      api_user: "admin"
      api_key: "secret"
      # postgres specific
@@ -82,3 +82,32 @@
      postgresql_replication_hosts:
        - address: "{{ standby_ip }}"
          auth: md5
+
+- hosts: app
+  user: ubuntu
+  roles:
+    - common
+  vars:
+     app_name: "shaman"
+     use_ssl: true
+     wsgi_file: wsgi.py
+     wsgi_callable: application
+     ansible_ssh_port: 22
+     restart_app: true
+     branch: "main"
+     git_shaman: "https://github.com/sine-cloud/shaman"
+     development_server: true
+     fqdn: "{{ inventory_hostname }}"
+     #nginx_ssl_cert_path: "/etc/letsencrypt/live/{{ fqdn }}/fullchain.pem"
+     nginx_ssl_cert_path: "/etc/ssl/certs/{{ fqdn }}-bundled.crt"
+     #nginx_ssl_key_path: "/etc/letsencrypt/live/{{ fqdn }}/privkey.pem"
+     nginx_ssl_key_path: "/etc/ssl/private/{{ fqdn }}.key"
+     api_user: "admin"
+     api_key: "secret"
+     rabbit_host: "localhost"
+     rabbit_user: "guest"
+     rabbit_pw: "guest"
+     github_secret: "secret"
+     chacra_verify_ssl: True
+  tags:
+    - deploy_app
