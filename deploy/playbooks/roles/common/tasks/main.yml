@@ -13,6 +13,9 @@
   hostname:
     name: "{{ fqdn }}"
 
+# rabbitmq must be installed after the hostname is set
+- include: rabbitmq.yml
+
 - name: "ensure a home for {{ app_name }}"
   become: true
   file:
