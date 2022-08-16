@@ -12,6 +12,7 @@
      ansible_ssh_port: 22
      restart_app: true
      branch: "main"
+     git_shaman: "https://github.com/sine-cloud/shaman"
      development_server: true
      fqdn: "{{ inventory_hostname }}"
      #nginx_ssl_cert_path: "/etc/letsencrypt/live/{{ fqdn }}/fullchain.pem"
@@ -25,6 +26,5 @@
      rabbit_pw: "guest"
      github_secret: "secret"
      chacra_verify_ssl: True
-     ansible_python_interpreter: "python3"
   tags:
     - deploy_app

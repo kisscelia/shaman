@@ -8,3 +8,4 @@ letsencrypt_command: "letsencrypt certonly --webroot -w {{ ssl_webroot_path }} -
 ssl_cert_path: "files/ssl/dev/ssl.crt"
 ssl_key_path: "files/ssl/dev/ssl.key"
 chacra_verify_ssl: False
+git_shaman: "https://github.com/sine-cloud/shaman"

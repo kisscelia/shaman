@@ -4,7 +4,7 @@
 #     ansible-playbook -i hosts --extra-vars="master_ip=192.168.111.100 standby_ip=192.168.111.104" deploy_postgres.yml
 
 - hosts: postgresql_master
-  user: vagrant
+  user: ubuntu
   roles:
     - postgresql
   vars:
@@ -12,7 +12,7 @@
      use_ssl: true
      ansible_ssh_port: 22
      development_server: true
-     fqdn: "localhost"
+     fqdn: "1.shaman.sinecloud.com"
      api_user: "admin"
      api_key: "secret"
      # postgres specific
@@ -44,16 +44,18 @@
          auth: md5
 
 - hosts: postgresql_standby
-  user: vagrant
+  user: ubuntu
   roles:
     - postgresql
   vars:
      postgresql_replication: true
+     # this is required the first time around
+     #postgresql_init_replication: true
      app_name: "shaman"
      use_ssl: true
      ansible_ssh_port: 22
      development_server: true
-     fqdn: "localhost"
+     fqdn: "2.shaman.sinecloud.com"
      api_user: "admin"
      api_key: "secret"
      # postgres specific
