@@ -1,0 +1,24 @@
+---
+
+system_packages:
+  - python3-dev
+  - git
+  - virtualenv
+  - g++
+  - gcc
+  - libpq-dev
+  - postgresql
+  - postgresql-common
+  - postgresql-contrib
+  - python3-psycopg2
+  - nginx
+  - vim
+  # needed for the ansible apt_repository module
+  - python3-apt
+#  - libsemanage-python
+  - python3
+
+ssl_requirements:
+  - openssl
+  - libssl-dev
+  - letsencrypt

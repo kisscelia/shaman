@@ -1,0 +1,61 @@
+---
+- name: ensure sites-available for nginx
+  file:
+    path: /etc/nginx/sites-available
+    state: directory
+  become: true
+
+- name: ensure there is an nginx user
+  user:
+    name: nginx
+    comment: "Nginx user"
+  become: true
+
+- name: ensure sites-enable for nginx
+  file:
+    path: /etc/nginx/sites-enabled
+    state: directory
+  become: true
+
+- name: remove default nginx site
+  action: file path=/etc/nginx/sites-enabled/default state=absent
+  become: true
+
+- name: write nginx.conf
+  action: template src=../templates/nginx.conf dest=/etc/nginx/nginx.conf
+  become: true
+
+- name: enable nginx
+  become: true
+  action: service name=nginx enabled=true
+
+- name: create nginx site config
+  template:
+    src: "../templates/nginx_site.conf"
+    dest: "/etc/nginx/sites-available/{{ app_name }}.conf"
+  become: true
+  notify:
+    - restart nginx
+
+- include: ssl.yml
+  when: development_server == true
+
+- name: check to see if ssl cert needs created
+  stat:
+    path: "{{ nginx_ssl_cert_path }}"
+  become: true
+  register: ssl_cert
+
+- include: letsencrypt.yml
+  when: development_server == false and not ssl_cert.stat.exists
+
+- name: link nginx config
+  file:
+    src: "/etc/nginx/sites-available/{{ app_name }}.conf"
+    dest: "/etc/nginx/sites-enabled/{{ app_name }}.conf"
+    state: "link"
+  become: true
+
+- name: ensure nginx is restarted
+  become: true
+  action: service name=nginx state=restarted

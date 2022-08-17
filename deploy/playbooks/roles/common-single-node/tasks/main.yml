@@ -1,0 +1,97 @@
+---
+
+- name: "Build hosts file"
+  become: true
+  lineinfile:
+    dest: /etc/hosts
+    regexp: ".*{{ fqdn }}$"
+    line: "127.0.1.1 {{ fqdn }}"
+    state: present
+
+- name: Set Hostname with hostname command
+  become: true
+  hostname:
+    name: "{{ fqdn }}"
+
+# rabbitmq must be installed after the hostname is set
+- include: rabbitmq.yml
+
+- name: "ensure a home for {{ app_name }}"
+  become: true
+  file:
+    path: "{{ app_home }}"
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+    state: directory
+    recurse: yes
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3500
+  become: true
+
+- name: install ssl system requirements
+  become: true
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ ssl_requirements }}"
+  when: app_use_ssl
+  tags:
+    - packages
+
+- name: install system packages
+  become: true
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ system_packages }}"
+  tags:
+    - packages
+
+- name: Create a virtualenv with latest pip.
+  pip:
+    name: pip
+    virtualenv: "{{ app_home }}"
+    extra_args: '--upgrade'
+    virtualenv_python: python3
+
+- name: "pip+git install {{ app_name }} into virtualenv."
+  pip:
+    name: 'git+{{ git_shaman }}@{{ branch }}#egg=shaman'
+    virtualenv: "{{ app_home }}"
+    state: forcereinstall
+    editable: yes
+  notify: restart app
+
+- name: create the prod config file
+  template:
+    src: prod.py.j2
+    dest: "{{ app_home }}/src/{{ app_name }}/prod.py"
+
+- name: create the prod api credentials file
+  template:
+    src: prod_api_creds.py.j2
+    dest: "{{ app_home }}/src/{{ app_name }}/prod_api_creds.py"
+  when: api_key is defined and api_user is defined
+
+- name: install python requirements in virtualenv
+  pip:
+    requirements: "{{ app_home }}/src/{{ app_name }}/requirements.txt"
+    state: present
+    virtualenv: "{{ app_home }}"
+  notify:
+    - restart app
+
+- include: postgresql.yml
+  tags:
+    - postgres
+
+- include: systemd.yml
+  tags:
+    - systemd
+
+- include: nginx.yml
+  tags:
+    - nginx
