@@ -40,7 +40,6 @@ setup(
     entry_points="""
         [pecan.command]
         populate=shaman.commands.populate:PopulateCommand
-        populate_single=shaman.commands.populate_single:PopulateSingleCommand
         """
 
 )

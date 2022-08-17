@@ -134,6 +134,11 @@ def start_read_only():
     metadata.bind = conf.sqlalchemy_ro.engine
 
 
+def start_read_only_single():
+    Session.bind = conf.sqlalchemy_w.engine
+    metadata.bind = conf.sqlalchemy_w.engine
+
+
 def commit():
     Session.commit()
 

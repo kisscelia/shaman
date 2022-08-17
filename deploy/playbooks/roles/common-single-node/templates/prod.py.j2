@@ -21,7 +21,7 @@ app = {
     'hooks': [
         TransactionHook(
             models.start,
-            models.start_read_only,
+            models.start_read_only_single,
             models.commit,
             models.rollback,
             models.clear
