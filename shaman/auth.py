@@ -9,7 +9,13 @@ def basic_auth():
     try:
         auth = request.headers.get('Authorization')
         assert auth
+        if isinstance(auth, bytes):
+            auth = bytes(auth).decode()
+
         decoded = base64.b64decode(auth.split(' ')[1])
+        if isinstance(decoded, bytes):
+            decoded = bytes(decoded).decode()
+
         username, password = decoded.split(':')
 
         assert username == conf.api_user
