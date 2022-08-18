@@ -39,6 +39,13 @@ class NodeController(object):
             self.node.healthy = True
         return {}
 
+    @secure(basic_auth)
+    @index.when(method='DELETE', template='json')
+    def index_delete(self):
+        if self.node:
+            self.node.delete()
+        return {}
+
 
 class NodesController(object):
 

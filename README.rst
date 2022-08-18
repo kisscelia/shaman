@@ -80,6 +80,8 @@ with the following::
         "status": "ready"
     }
 
+When ``status`` is ``deleted``, the info will be deleted in the database(repos).
+
 GET /api/search/
 ----------------
 
@@ -264,6 +266,17 @@ be used as the new node's ``host``.
 If the node already exists, this endpoint acts as a health
 check and it's ``last_check`` field will be reset back
 to zero.
+
+
+[DANGEROUS] DELETE /api/nodes/(node_host)/
+----------------------------
+
+This endpoint is used to delete an exists chacra node from the pool.
+
+No JSON body is needed for this endpoint, ``node_host`` will
+be used as the node's ``host``.
+
+If the node does not exist, nothing changed and 200 OK will return either.
 
 
 GET /api/nodes/next/
