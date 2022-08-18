@@ -66,7 +66,8 @@ the following data::
         "sha1": "45107e21c568dd033c2f0a3107dec8f0b0e58374",
         "url": "https://chacra.ceph.com/r/ceph/jewel/45107e21c568dd033c2f0a3107dec8f0b0e58374/ubuntu/trusty/",
         "chacra_url": "https://chacra.ceph.com/repos/ceph/jewel/45107e21c568dd033c2f0a3107dec8f0b0e58374/ubuntu/trusty/",
-        "status": "requested"
+        "status": "requested",
+        "flavor": "default"
     }
 
 The ``status`` and ``url`` fields are available for updating. You
