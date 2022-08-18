@@ -108,6 +108,6 @@
      rabbit_user: "guest"
      rabbit_pw: "guest"
      github_secret: "secret"
-     chacra_verify_ssl: True
+     chacra_verify_ssl: False
   tags:
     - deploy_app
